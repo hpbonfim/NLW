@@ -19,6 +19,11 @@ npm install typescript @types/express ts-node ts-node-dev -D
 npx tsc --init
 ```
 
+### Criação do Migration Sqlite
+```
+npx knex migrate:latest --knexfile knexfile.ts migrate:latest
+```
+
 ### Criação do Frontend
 ```
 npx create-react-app frontend --template=typescript 
