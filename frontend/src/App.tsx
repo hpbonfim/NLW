@@ -1,24 +1,25 @@
+// JSX/TSX é a sintaxe do XML dentro do Javascript
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Routes from './routes';
+
+//  import React, { useState } from 'react';
+//  import Header from './Header'
+//  import Home from './pages/Home'
 
 function App() {
+  /**
+    *  const [counter, setCounter] = useState(0); // retorna [valor do estado, função para atualizar o valor do estado]
+    *  function handleButtonClick() {
+    *    setCounter(counter + 1);
+    *  }
+    *  <Header title={`contador: ${counter}`} />
+    *  <button type="button" onClick={handleButtonClick}>CLICK</button>
+   */
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+     <Routes/>
     </div>
   );
 }
