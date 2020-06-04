@@ -1,6 +1,5 @@
 # Next Level Week #1 - Projeto Rocketseat
 
-
 |Tecnologias utilizadas  |
 |---------|
 |TypeScript     |
@@ -9,9 +8,9 @@
 |Node v12.17.0     |
 |npm  6.14.4     |
 
-
 ### Criação do Backend
-```
+
+``` 
 cd backend
 npm init -y 
 npm install express
@@ -20,30 +19,43 @@ npx tsc --init
 ```
 
 ### Criação do Migration Sqlite
-```
+
+``` 
 npx knex migrate:latest --knexfile knexfile.ts migrate:latest
 ```
 
 ### Criação do Frontend
-```
+
+``` 
 npx create-react-app frontend --template=typescript 
 ```
 
 ### Iniciar o Backend { 3 versões }
-```
+
+``` 
 $ npx ts-node src/server.ts 
 ```
 
-```
+``` 
 $ npx ts-node-dev src/server.ts (Hotdeploy) 
 ```
 
-```
+``` 
 $ npm run dev 
 ```
 
 ### Iniciar o Frontend
 
-```
+``` 
 $ npm start
 ```
+
+### API externas utilizadas
+
+``` 
+$ npm start
+
+```
+
+[Nominatim reverse map address](https://nominatim.org/release-docs/develop/api/Reverse/)
+[IBGE](https://servicodados.ibge.gov.br/api/docs/localidades?versao=1#api-_)
