@@ -326,6 +326,18 @@ const CreatePoint = () => {
                                 <option key={city} value={city}>{city} </option>
                             ))}
                         </select>
+                        <div>
+                            {/*
+                          <datalist id="city" onChange={handleSelectCity}>
+                            <option value="0">Selecione uma Cidade</option>
+                            {cities.map(city => (
+                                <option key={city} value={city}>{city} </option>
+                            ))}
+                        </datalist>
+                         */}
+                        </div>
+
+
                     </div>
                 </div>
 
