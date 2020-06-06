@@ -8,6 +8,7 @@ import { Map, TileLayer, Marker } from 'react-leaflet';
 import { LeafletMouseEvent } from 'leaflet'
 import API from '../../services/api'
 import axios from 'axios';
+import Dropzone from '../../components/Dropzone';
 
 interface Item {
     id: number;
@@ -27,6 +28,7 @@ interface SanitizeMapClickedResponse {
     uf: string;
     localidade: string
 }
+
 
 const CreatePoint = () => {
     const history = useHistory(); // RETORNAR AO INICIO
@@ -70,14 +72,6 @@ const CreatePoint = () => {
             })
     }, [selectedUf])
 
-    function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
-        setSelectedUfs(event.target.value)
-    }
-
-    function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
-        setSelectedCity(event.target.value)
-    }
-
     useEffect(() => {
         axios.get(`https://nominatim.openstreetmap.org/search?format=json&state=${selectedUf}&city=${selectedCity}`)
             .then(response => {
@@ -92,7 +86,8 @@ const CreatePoint = () => {
             .catch((err) => {
                 console.error(err)
             })
-    }, [selectedUf, selectedCity])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedCity])
     /* --- */
 
 
@@ -114,13 +109,6 @@ const CreatePoint = () => {
         }
 
     }, [selectedPosition, initPosition])
-
-    function handleMapClick(event: LeafletMouseEvent) {
-        setSelectedPosition([
-            event.latlng.lat,
-            event.latlng.lng
-        ])
-    }
 
     useEffect(() => {
         const [latitude, longitude] = selectedPosition;
@@ -214,6 +202,15 @@ const CreatePoint = () => {
         setInputData({ ...inputData, [name]: value })
     }
 
+    /* MAP */
+    function handleMapClick(event: LeafletMouseEvent) {
+        setSelectedPosition([
+            event.latlng.lat,
+            event.latlng.lng
+        ])
+        setZoomIn(18)
+    }
+
     /* SELECTS */
     const [selectedItems, setSelectedItems] = useState<number[]>([])
     function handleSelectItem(id: number) {
@@ -226,27 +223,43 @@ const CreatePoint = () => {
             setSelectedItems([...selectedItems, id])
         }
     }
+
+    function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
+        setSelectedUfs(event.target.value)
+    }
+
+    function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
+        setSelectedCity(event.target.value)
+    }
     /* --- */
+
+    /* FILES  */
+    const [selectedFile, setSelectedFile] = useState<File>();
+    /* --- */
+
 
     /* SUBMIT */
     async function handleSubmit(event: FormEvent) {
         event.preventDefault()
+        console.log(selectedFile)
 
         const { name, email, whatsapp } = inputData;
         const uf = selectedUf;
         const city = selectedCity;
         const [latitude, longitude] = selectedPosition;
         const items = selectedItems;
+        const data = new FormData()
+        data.append("name", name)
+        data.append("email", email)
+        data.append("whatsapp", whatsapp)
+        data.append("uf", uf)
+        data.append("city", city)
+        data.append("latitude", String(latitude))
+        data.append("longitude", String(longitude))
+        data.append("items", items.join(','))
 
-        const data = {
-            name,
-            email,
-            whatsapp,
-            uf,
-            city,
-            latitude,
-            longitude,
-            items
+        if(selectedFile) {
+            data.append("image", selectedFile)
         }
 
         await API.post('points', data)
@@ -271,7 +284,7 @@ const CreatePoint = () => {
                 <h1>
                     Cadastro do <br /> Ponto de Coleta
         </h1>
-
+                <Dropzone onFileUploaded={setSelectedFile} />
                 <fieldset>
                     <legend>
                         <h2>Dados</h2>
@@ -305,7 +318,9 @@ const CreatePoint = () => {
                         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={selectedPosition} />
+                    {selectedPosition[0] !== 0 && (
+                        <Marker position={selectedPosition} />
+                    )}
                 </Map>
 
                 <div className="field-group">

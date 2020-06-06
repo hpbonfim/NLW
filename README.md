@@ -46,7 +46,7 @@ npx tsc --init
 ### Criação do Migration Sqlite
 
 ``` 
-npx knex migrate:latest --knexfile knexfile.ts migrate:latest
+npx knex --knexfile knexfile.ts migrate:latest
 ```
 
 ### Criação do Frontend

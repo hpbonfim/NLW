@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, ScrollView, Image, SafeAreaView, Alert} from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView, Image, SafeAreaView, Alert } from 'react-native'
 // import { TouchableOpacity } from 'react-native-gesture-handler'
 import Constants from 'expo-constants'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -16,12 +16,13 @@ interface Item {
   image_url: string
 }
 
-interface Points {
+interface Point {
   id: number
   name: string
   image: string
   latitude: number
   longitude: number
+  image_url: string
 }
 
 interface Params {
@@ -32,7 +33,7 @@ interface Params {
 const Points = () => {
 
   const route = useRoute();
-const routeParams = route.params as Params
+  const routeParams = route.params as Params
   const navigation = useNavigation()
 
   function handleNavigateBack() {
@@ -40,7 +41,7 @@ const routeParams = route.params as Params
   }
 
   function handleNavigationToDetail(id: number) {
-    navigation.navigate('Detail', { point_id: id})
+    navigation.navigate('Detail', { point_id: id })
   }
 
   /* GET ITEMS API */
@@ -77,16 +78,16 @@ const routeParams = route.params as Params
     async function loadPosition() {
       const { status } = await Location.requestPermissionsAsync()
 
-      if (status != 'granted'){
+      if (status != 'granted') {
         Alert.alert('Ops...', 'Permissão não habilitada')
         return
       }
 
       const location = await Location.getCurrentPositionAsync();
       const { latitude, longitude } = location.coords
-      
+
       setInitialPosition([
-        latitude, 
+        latitude,
         longitude
       ])
     }
@@ -96,26 +97,26 @@ const routeParams = route.params as Params
   }, [])
   /* --- */
 
-    /* LOCATION POINTS  */
-    const [points, setPoints] = useState<Points[]>([])
+  /* LOCATION POINTS  */
+  const [points, setPoints] = useState<Point[]>([])
 
-    useEffect(() => {
-      API.get('points',{
-        params: {
-          city: routeParams.city,
-          uf: routeParams.uf,
-          items: selectedItems
-        }
-      })
+  useEffect(() => {
+    API.get('points', {
+      params: {
+        city: routeParams.city,
+        uf: routeParams.uf,
+        items: selectedItems
+      }
+    })
       .then(response => {
         setPoints(response.data)
       })
       .catch((err) => {
         Alert.alert('Backend não está ativo')
       })
-  
-    }, [selectedItems])
-    /* --- */
+
+  }, [selectedItems])
+  /* --- */
 
 
   return (
@@ -131,33 +132,33 @@ const routeParams = route.params as Params
 
         <View style={styles.mapContainer}>
 
-         { initialPosition[0] !== 0 && (
-            <MapView style={styles.map} 
-            initialRegion={{
-              latitude: initialPosition[0],
-              longitude: initialPosition[1],
-              latitudeDelta: 0.014,
-              longitudeDelta: 0.014
-            }}>
-  
-            {points.map(point => (
+          {initialPosition[0] !== 0 && (
+            <MapView style={styles.map}
+              initialRegion={{
+                latitude: initialPosition[0],
+                longitude: initialPosition[1],
+                latitudeDelta: 0.014,
+                longitudeDelta: 0.014
+              }}>
+
+              {points.map(point => (
                 <Marker
-                key={String(point.id)}
-                style={styles.mapMarker}
-                onPress={() => handleNavigationToDetail(point.id)}
-                coordinate={{
-                  latitude: point.latitude,
-                  longitude: point.longitude,
-                }} >
-                <View style={styles.mapMarkerContainer}>
-                  <Image style={styles.mapMarkerImage} source={{ uri: point.image }} />
-                  <Text style={styles.mapMarkerTitle}>{point.name}</Text>
-                </View>
-              </Marker>
-            ))}
-  
+                  key={String(point.id)}
+                  style={styles.mapMarker}
+                  onPress={() => handleNavigationToDetail(point.id)}
+                  coordinate={{
+                    latitude: point.latitude,
+                    longitude: point.longitude,
+                  }} >
+                  <View style={styles.mapMarkerContainer}>
+                    <Image style={styles.mapMarkerImage} source={{ uri: point.image_url }} />
+                    <Text style={styles.mapMarkerTitle}>{point.name}</Text>
+                  </View>
+                </Marker>
+              ))}
+
             </MapView>
-         )}
+          )}
 
         </View>
 
