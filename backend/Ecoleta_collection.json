@@ -1,0 +1,209 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2020-06-07T14:31:54.004Z",
+    "__export_source": "insomnia.desktop.app:v2020.2.1",
+    "resources": [
+        {
+            "_id": "req_eb6f9366eb3b44638e2df9b6dc342ca4",
+            "authentication": {},
+            "body": {
+                "mimeType": "multipart/form-data",
+                "params": [
+                    {
+                        "disabled": false,
+                        "id": "pair_d50b679ad2e74d18bb58c60eaba6d946",
+                        "name": "name",
+                        "type": "text",
+                        "value": "Parque do Ibirapuera"
+                    },
+                    {
+                        "disabled": false,
+                        "id": "pair_1f7aa56159574e29a65f46de44e7ef8e",
+                        "name": "email",
+                        "type": "text",
+                        "value": "ze@padaria.com.br"
+                    },
+                    {
+                        "disabled": false,
+                        "id": "pair_4941c87eef4146e08c503156cdf84546",
+                        "name": "whatsapp",
+                        "type": "text",
+                        "value": "1132165498"
+                    },
+                    {
+                        "disabled": false,
+                        "id": "pair_3dc61d7d0da24f28bde208b683a47d79",
+                        "name": "latitude",
+                        "type": "text",
+                        "value": "-23.5874113"
+                    },
+                    {
+                        "disabled": false,
+                        "id": "pair_cea88b0e67b241b7bf3356f434087a5d",
+                        "name": "longitude",
+                        "type": "text",
+                        "value": "-46.6598276"
+                    },
+                    {
+                        "disabled": false,
+                        "id": "pair_a8a53697d6fa415ea33c81727368e903",
+                        "name": "city",
+                        "type": "text",
+                        "value": "São Paulo"
+                    },
+                    {
+                        "disabled": false,
+                        "id": "pair_e85a8b9465df45c297334e8d5a41bb0a",
+                        "name": "uf",
+                        "type": "text",
+                        "value": "SP"
+                    },
+                    {
+                        "disabled": false,
+                        "id": "pair_092b554e1ec649a3a48c501d5d82db93",
+                        "name": "items",
+                        "type": "text",
+                        "value": "1,3,4,5,6"
+                    },
+                    {
+                        "disabled": false,
+                        "fileName": "image.jpg",
+                        "id": "pair_d7750d72767848a4a55a043f1b475de7",
+                        "name": "image",
+                        "type": "file"
+                    }
+                ]
+            },
+            "created": 1591539733672,
+            "description": "",
+            "headers": [],
+            "isPrivate": false,
+            "metaSortKey": -1591539737084,
+            "method": "POST",
+            "modified": 1591540162020,
+            "name": "Criar ponto de coleta com imagem",
+            "parameters": [],
+            "parentId": "wrk_946f2ca7ec62453780c0b1f1eecb3f9b",
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingFollowRedirects": "global",
+            "settingRebuildPath": true,
+            "settingSendCookies": true,
+            "settingStoreCookies": true,
+            "url": "localhost:3333/points",
+            "_type": "request"
+        },
+        {
+            "_id": "wrk_946f2ca7ec62453780c0b1f1eecb3f9b",
+            "created": 1591539736984,
+            "description": "",
+            "modified": 1591540149082,
+            "name": "Next Level Week v1 Workspace",
+            "parentId": null,
+            "scope": null,
+            "_type": "workspace"
+        },
+        {
+            "_id": "req_dcc1f450a7684a95a8f460f7e5389535",
+            "authentication": {},
+            "body": {},
+            "created": 1591539733683,
+            "description": "",
+            "headers": [],
+            "isPrivate": false,
+            "metaSortKey": -1591539737059,
+            "method": "GET",
+            "modified": 1591540163983,
+            "name": "Listar pontos filtrados",
+            "parameters": [],
+            "parentId": "wrk_946f2ca7ec62453780c0b1f1eecb3f9b",
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingFollowRedirects": "global",
+            "settingRebuildPath": true,
+            "settingSendCookies": true,
+            "settingStoreCookies": true,
+            "url": "localhost:3333/points?city=São Paulo&uf=SP&items=1",
+            "_type": "request"
+        },
+        {
+            "_id": "req_decfed5352e045c29ab700658aec71d9",
+            "authentication": {},
+            "body": {},
+            "created": 1591539733688,
+            "description": "",
+            "headers": [],
+            "isPrivate": false,
+            "metaSortKey": -1591539737046.5,
+            "method": "GET",
+            "modified": 1591540165477,
+            "name": "Listar ponto específico",
+            "parameters": [],
+            "parentId": "wrk_946f2ca7ec62453780c0b1f1eecb3f9b",
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingFollowRedirects": "global",
+            "settingRebuildPath": true,
+            "settingSendCookies": true,
+            "settingStoreCookies": true,
+            "url": "localhost:3333/points/9",
+            "_type": "request"
+        },
+        {
+            "_id": "req_864f2c367c224ed2848f06dc9673e368",
+            "authentication": {},
+            "body": {},
+            "created": 1591539733710,
+            "description": "",
+            "headers": [],
+            "isPrivate": false,
+            "metaSortKey": -1591539737040.25,
+            "method": "GET",
+            "modified": 1591540168581,
+            "name": "Listar Itens",
+            "parameters": [],
+            "parentId": "wrk_946f2ca7ec62453780c0b1f1eecb3f9b",
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingFollowRedirects": "global",
+            "settingRebuildPath": true,
+            "settingSendCookies": true,
+            "settingStoreCookies": true,
+            "url": "localhost:3333/items",
+            "_type": "request"
+        },
+        {
+            "_id": "env_2ed2541bfce7ce419e8b8aec60669a09265656c1",
+            "color": null,
+            "created": 1591539801093,
+            "data": {},
+            "dataPropertyOrder": null,
+            "isPrivate": false,
+            "metaSortKey": 1591539801093,
+            "modified": 1591539801093,
+            "name": "Base Environment",
+            "parentId": "wrk_946f2ca7ec62453780c0b1f1eecb3f9b",
+            "_type": "environment"
+        },
+        {
+            "_id": "jar_2ed2541bfce7ce419e8b8aec60669a09265656c1",
+            "cookies": [],
+            "created": 1591539801099,
+            "modified": 1591539801099,
+            "name": "Default Jar",
+            "parentId": "wrk_946f2ca7ec62453780c0b1f1eecb3f9b",
+            "_type": "cookie_jar"
+        },
+        {
+            "_id": "spc_5d2b5988a26e43c191df291c8f82a5b9",
+            "contentType": "yaml",
+            "contents": "",
+            "created": 1591539736986,
+            "fileName": "Imported Workspace",
+            "modified": 1591539736986,
+            "parentId": "wrk_946f2ca7ec62453780c0b1f1eecb3f9b",
+            "_type": "api_spec"
+        }
+    ]
+}

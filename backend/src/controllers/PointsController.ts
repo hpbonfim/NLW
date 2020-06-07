@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import knex from '../database/connection';
-import * as host from '../config/dev'
+import * as config from '../config/host'
 
 
 class PointsController {
@@ -24,7 +24,7 @@ class PointsController {
         const serializedPoints = points.map(point => {
             return {
                 ...point,
-                image_url: `http://${host.default.host_dev}:3333/uploads/${point.image}`
+                image_url: `http://${config.default.localhost}:3333/uploads/${point.image}`
             }
         })
 
@@ -43,7 +43,7 @@ class PointsController {
 
         const serializedPoint = {
             ...point,
-            image_url: `http://${host.default.host_dev}:3333/uploads/${point.image}`
+            image_url: `http://${config.default.localhost}:3333/uploads/${point.image}`
         }
 
         /** 

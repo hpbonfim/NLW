@@ -44,7 +44,6 @@ const CreatePoint = () => {
     }, []);
     /* --- */
 
-
     /* IBGE UF */
     const [ufs, setUfs] = useState<string[]>([]);
     useEffect(() => {
@@ -90,7 +89,6 @@ const CreatePoint = () => {
     }, [selectedCity])
     /* --- */
 
-
     /* MAP */
     const [zoomIn, setZoomIn] = useState<number>(2); // SELECT POSITION ON CLICK MAP
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]); // SELECT POSITION ON CLICK MAP
@@ -127,46 +125,50 @@ const CreatePoint = () => {
                                 alert("Selecione somente estados Brasileiros"),
                                 setSelectedPosition([0, 0]),
                                 setSelectedUfs("0"),
-                                setSelectedCity("0")
+                                setSelectedCity("0"),
+                                setZoomIn(2)
                             )
                         } else
-                            if (data.address.postcode != null || undefined) {
-                                const postcode = response.data.address.postcode;
-                                const sanitizedCEP = postcode.split('-').join("");
 
-                                await axios.get<SanitizeMapClickedResponse>(`https://viacep.com.br/ws/${sanitizedCEP}/json`)
-                                    .then(async res => {
-                                        const { uf, localidade } = res.data
+                            if (data.address.state != null || undefined) {
+                                const { state, city_district, city, village, town } = data.address;
+
+                                UFs.UF
+                                    .filter(info => info.nome === state)
+                                    .map(filtered_uf => {
+                                        return setSelectedUfs(filtered_uf.sigla)
+                                    })
+
+                                cities
+                                    .filter(info =>
+                                        city === info ||
+                                        town === info ||
+                                        village === info ||
+                                        city_district === info
+                                    )
+                                    .map(filtered_city => {
                                         return (
-                                            setSelectedUfs(uf),
-                                            setSelectedCity(localidade),
-                                            setZoomIn(11)
+                                            setSelectedCity(filtered_city)
                                         )
                                     })
+
+                                    
                             } else
-                                if (data.address.state != null || undefined) {
-                                    const { state, city_district, city, village, town } = data.address;
+                                if (data.address.postcode != null || undefined) {
+                                    const postcode = response.data.address.postcode;
+                                    const sanitizedCEP = postcode.split('-').join("");
 
-                                    UFs.UF
-                                        .filter(info => info.nome === state)
-                                        .map(filtered_uf => {
-                                            return setSelectedUfs(filtered_uf.sigla)
-                                        })
-
-                                    cities
-                                        .filter(info =>
-                                            city === info ||
-                                            town === info ||
-                                            village === info ||
-                                            city_district === info
-                                        )
-                                        .map(filtered_city => {
+                                    await axios.get<SanitizeMapClickedResponse>(`https://viacep.com.br/ws/${sanitizedCEP}/json`)
+                                        .then(async res => {
+                                            const { uf, localidade } = res.data
                                             return (
-                                                setSelectedCity(filtered_city),
-                                                setZoomIn(11)
+                                                setSelectedUfs(uf),
+                                                setSelectedCity(localidade)
                                             )
                                         })
-                                } else {
+
+                                }
+                                else {
                                     throw new Error("invalid data")
                                 }
                     }
@@ -176,7 +178,7 @@ const CreatePoint = () => {
                             setSelectedPosition([0, 0]),
                             setSelectedUfs("0"),
                             setSelectedCity("0"),
-                            setZoomIn(0)
+                            setZoomIn(2)
                         )
                     }
                 } else {
@@ -208,7 +210,7 @@ const CreatePoint = () => {
             event.latlng.lat,
             event.latlng.lng
         ])
-        setZoomIn(18)
+        setZoomIn(17)
     }
 
     /* SELECTS */
@@ -230,6 +232,7 @@ const CreatePoint = () => {
 
     function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
         setSelectedCity(event.target.value)
+        setZoomIn(17)
     }
     /* --- */
 
@@ -237,11 +240,9 @@ const CreatePoint = () => {
     const [selectedFile, setSelectedFile] = useState<File>();
     /* --- */
 
-
     /* SUBMIT */
     async function handleSubmit(event: FormEvent) {
         event.preventDefault()
-        console.log(selectedFile)
 
         const { name, email, whatsapp } = inputData;
         const uf = selectedUf;
@@ -249,22 +250,42 @@ const CreatePoint = () => {
         const [latitude, longitude] = selectedPosition;
         const items = selectedItems;
         const data = new FormData()
+
+        if (!name) return alert("Digite um Nome válido")
         data.append("name", name)
+
+        if (!email) return alert("Digite um E-mail válido")
         data.append("email", email)
+
+        if (!whatsapp) return alert("Digite um WhatsApp válido")
         data.append("whatsapp", whatsapp)
+
+        if (!uf || uf === "0") return alert("Selecione o UF válido")
         data.append("uf", uf)
+
+        if (!city) return alert("Selecione uma Cidade válidoa")
         data.append("city", city)
+
+        if (latitude === 0 || latitude === -0) return alert("Escolha um local no Brasil")
         data.append("latitude", String(latitude))
+
+        if (latitude === 0 || latitude === -0) return alert("Escolha um local no Brasil")
         data.append("longitude", String(longitude))
+
+        if (items.length === 0) return alert("Selecione ao menos um item")
         data.append("items", items.join(','))
 
-        if(selectedFile) {
-            data.append("image", selectedFile)
-        }
+        if (!selectedFile) return alert("Adicione uma Imagem!")
+        data.append("image", selectedFile)
 
-        await API.post('points', data)
-        alert('Criado com sucesso')
-        history.push('/')
+        await API.post('points', data).then(response => {
+            console.log(response)
+            alert(`Ponto de coleta criado com sucesso`)
+            history.push('/')
+        })
+            .catch(error => {
+                alert(`${error}\n Backend não foi inicializado`)
+            })
     }
 
     /* --- */
