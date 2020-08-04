@@ -26,19 +26,22 @@
   </a>
   </p>
   <p align="center">
-<a href="https://insomnia.rest/run/?label=&uri=https://github.com/hpbonfim/NLW/backend/Ecoleta_collection.json" target="_blank">
-<img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia">
-</a>
+    <a href="https://insomnia.rest/run/?label=&uri=https://github.com/hpbonfim/NLW/backend/Ecoleta_collection.json" target="_blank">
+    <img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia">
+    </a>
+  </p>
+
+<p align="center">
+  <a  href="https://www.figma.com/file/tC1YvNt3rCLRL0irWTS33v/Ecoleta-Booster-Copy?node-id=0%3A1">
+    <img src="ecoleta.jpeg" />
+  </a>
 </p>
-  <h3 align="center">Ecoleta é uma aplicação para registro e encontro de pontos de coleta de resíduos recicláveis como pilhas, baterias, lâmpadas, entre outros . </h3>
-
-<a align="center" href="https://www.figma.com/file/tC1YvNt3rCLRL0irWTS33v/Ecoleta-Booster-Copy?node-id=0%3A1">
-  <img src="ecoleta.jpeg" />
-</a>
-
-<a align="center" href="https://www.figma.com/file/tC1YvNt3rCLRL0irWTS33v/Ecoleta-Booster-Copy?node-id=0%3A1">
-  <img src="ecoleta.gif" />
-</a>
+    <h3 align="center">Ecoleta é uma aplicação para registro e encontro de pontos de coleta de resíduos recicláveis como pilhas, baterias, lâmpadas, entre outros . </h3>
+<p align="center">
+  <a href="https://www.figma.com/file/tC1YvNt3rCLRL0irWTS33v/Ecoleta-Booster-Copy?node-id=0%3A1">
+    <img src="ecoleta.gif" />
+  </a>
+</p>
 
 
 
