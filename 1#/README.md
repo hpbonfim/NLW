@@ -1,4 +1,4 @@
-  <h1 align="center">Next Level Week #1 - Projeto Ecoleta ♻️</h1>
+  <h1 align="center">♻️ Next Level Week #1 - Projeto Ecoleta ♻️</h1>
 
   <p align="center">
   <a href="https://github.com/hpbonfim/NLW#readme">
