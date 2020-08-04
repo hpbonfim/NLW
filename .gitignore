@@ -3,7 +3,8 @@ dist
 node_modules
 backend/uploads/*
 backend/build/*
-
+2#
+scripts
 # Logs
 logs
 *.log
