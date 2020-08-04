@@ -3,7 +3,6 @@ dist
 node_modules
 backend/uploads/*
 backend/build/*
-2#
 
 # Logs
 logs
