@@ -1,17 +1,11 @@
 # BACKEND
 
   <p align=center>
-    <a href="https://github.com/hpbonfim/website#readme">
     <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000"/>
-    </a>
     <img src="https://img.shields.io/badge/eslint-6.8.0-4b32c3?style=flat-square&logo=eslint" />
     <img src="https://flat.badgen.net/badge/style-guide/airbnb/ff5a5f?icon=airbnb" />
-    <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000"/>
-    <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/hpbonfim/NLW/2#/backend/"/>
-    <img alt="size" src="https://img.shields.io/github/repo-size/hpbonfim/NLW/2#/backend/"/>
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/hpbonfim/NLW/2#/backend/">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" target="https://github.com/hpbonfim/NLW/2#/backend/#readme" />
-    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="https://github.com/hpbonfim/NLW/2#/backend/#readme" />
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" target="https://github.com/hpbonfim/NLW/tree/master/2%23/backend" />
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="https://github.com/hpbonfim/NLW/tree/master/2%23/backend" />
 </p>
 <p align=center>    
 <a href="">
