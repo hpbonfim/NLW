@@ -1,38 +1,74 @@
-import React from 'react'
-import PageHeader from '../../components/PageHeader'
-import './styles.css'
-import TeacherItem from '../../components/TeacherItem'
+import React, { useCallback, useState } from 'react';
+import { Form } from '@unform/web';
+import { toast } from 'react-toastify';
 
-export default function TeacherList() {
-    return (
-        <div id="page-teacher-list" className="container">
-            <PageHeader title="Estes sao os proffs disponiveis">
-                <form id="search-teachers">
-                    <div className="input-block">
-                        <label htmlFor="subject">Materia</label>
-                        <input type="text" id="subject" />
-                    </div>
+import PageHeader from '../../components/PageHeader';
+import TeacherItem, { Teacher } from '../../components/TeacherItem';
+import Input from '../../components/Input';
+import Select from '../../components/Select';
+import api from '../../services/api';
+import './styles.css';
 
-                    <div className="input-block">
-                        <label htmlFor="week_day">Dia da Semana</label>
-                        <input type="text" id="week_day" />
-                    </div>
+const TeacherList: React.FC = () => {
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const handleSubmit = useCallback(async data => {
+    try {
+      const response = await api.get<Teacher[]>('classes', {
+        params: data,
+      });
+      setTeachers(response.data);
+    } catch (err) {
+      toast.error('Ops! Alguma coisa deu errado, tente mais tarde!');
+    }
+  }, []);
 
-                    <div className="input-block">
-                        <label htmlFor="time">Horario</label>
-                        <input type="text" id="time" />
-                    </div>
-                </form>
-            </PageHeader>
-            <TeacherItem/>
-            <TeacherItem/>
-            <TeacherItem/>
-            <TeacherItem/>
-            <TeacherItem/>
-            <TeacherItem/>
-            <TeacherItem/>
+  return (
+    <div id="page-teacher-list" className="container">
+      <PageHeader title="Estes são os proffys disponíveis">
+        <Form id="search-teachers" onSubmit={handleSubmit}>
+          <Select
+            name="subject"
+            label="Matéria"
+            options={[
+              { value: 'Artes', label: 'Artes' },
+              { value: 'Biologia', label: 'Biologia' },
+              { value: 'Ciências', label: 'Ciências' },
+              { value: 'Educação Física', label: 'Educação Física' },
+              { value: 'Geografia', label: 'Geografia' },
+              { value: 'História', label: 'História' },
+              { value: 'Matemática', label: 'Matemática' },
+              { value: 'Português', label: 'Português' },
+              { value: 'Química', label: 'Química' },
+            ]}
+          />
 
-        </div>
-    )
+          <Select
+            name="week_day"
+            label="Dia da semana"
+            options={[
+              { value: '0', label: 'Domingo' },
+              { value: '1', label: 'Segunda-feira' },
+              { value: '2', label: 'Terça-feira' },
+              { value: '3', label: 'Quarta-feira' },
+              { value: '4', label: 'Quinta-feira' },
+              { value: '5', label: 'Sexta-feira' },
+              { value: '6', label: 'Sabado' },
+            ]}
+          />
 
-}
+          <Input type="time" name="time" label="Hora" />
+
+          <button type="submit">Buscar</button>
+        </Form>
+      </PageHeader>
+
+      <main>
+        {teachers.map((teacher: Teacher) => (
+          <TeacherItem key={teacher.id} teacher={teacher} />
+        ))}
+      </main>
+    </div>
+  );
+};
+
+export default TeacherList;
