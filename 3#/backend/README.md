@@ -22,6 +22,10 @@ yarn install
 yarn typeorm migration:create -n create_orphanages
 ```
 
+```
+yarn typeorm migration:create -n create_images
+```
+
 2. Create a Orphanages Table 
 
 ``` 
