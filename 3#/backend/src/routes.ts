@@ -7,8 +7,8 @@ import uploadConfig from './config/upload'
 const routes = Router()
 const upload = multer(uploadConfig)
 
-routes.get('/orphanages/:id', OrphanagesController.listOne)
-routes.get('/orphanages', OrphanagesController.listMany)
-routes.post('/orphanages', upload.array('images'), OrphanagesController.createOne)
+routes.get('/orphanages/:id', OrphanagesController.ListOne)
+routes.get('/orphanages', OrphanagesController.ListMany)
+routes.post('/orphanages', upload.array('images'), OrphanagesController.CreateOne)
 
 export default routes
