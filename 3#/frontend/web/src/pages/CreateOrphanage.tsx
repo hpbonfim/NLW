@@ -1,85 +1,91 @@
-import React, { useState, FormEvent, ChangeEvent } from "react";
-import { Map, Marker, TileLayer } from "react-leaflet";
-import { useHistory } from "react-router-dom";
-import { LeafletMouseEvent } from "leaflet";
-import { FiPlus } from "react-icons/fi";
+import React, { ChangeEvent, FormEvent, useState } from "react"
+import { Map, Marker, TileLayer } from 'react-leaflet'
+import { LeafletMouseEvent } from 'leaflet'
+import { useHistory } from 'react-router-dom'
 
-import "../styles/pages/create-orphanage.css";
+import { FiPlus } from "react-icons/fi"
 
-import Sidebar from "../components/Sidebar";
-import mapIcon from "../utils/mapIcon";
-import api from "../services/api";
+import Sidebar from '../components/Sidebar'
+import mapIcon from '../utils/mapIcon'
+import api from '../services/api'
 
-export default function CreateOrphanage() {
-  const history = useHistory();
+import '../styles/pages/create-orphanage.css'
 
-  const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
-  const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
-  const [instructions, setInstructions] = useState("");
-  const [opening_hours, setOpeningHours] = useState("");
-  const [open_on_weekends, setOpenOnWeekends] = useState(true);
-  const [images, setImages] = useState<File[]>([]);
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+export default function OrphanagesMap() {
+  const history = useHistory()
 
-  const handleMapClick = (event: LeafletMouseEvent) => {
-    const { lat, lng } = event.latlng;
+  const [position, setPosition] = useState({ latitude: 0, longitude: 0 })
 
-    setPosition({ latitude: lat, longitude: lng });
-  };
+  const [name, setName] = useState('')
+  const [about, setAbout] = useState('')
+  const [instructions, setInstructions] = useState('')
+  const [opening_hours, setOpeningHours] = useState('')
+  const [open_on_weekends, setOpenOnWeekends] = useState(true)
+  const [images, setImages] = useState<File[]>([])
+  const [previewImages, setPreviewImages] = useState<string[]>([])
 
-  const handleSelectImages = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) return;
+  function handleMapClick(event: LeafletMouseEvent) {
+    const { lat, lng } = event.latlng
 
-    const selectedImages = Array.from(event.target.files);
+    setPosition({
+      latitude: lat,
+      longitude: lng,
+    })
+  }
 
-    setImages(selectedImages);
+  function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {
+    if (!event.target.files) {
+      return
+    }
 
-    const selectedImagesPreview = selectedImages.map((image) => {
-      return URL.createObjectURL(image);
-    });
+    const selectedImages = Array.from(event.target.files)
 
-    setPreviewImages(selectedImagesPreview);
-  };
+    setImages(selectedImages)
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+    const selectedImagesPreview = selectedImages.map(image => {
+      return URL.createObjectURL(image)
+    })
 
-    const { latitude, longitude } = position;
+    setPreviewImages(selectedImagesPreview)
+  }
 
-    const data = new FormData();
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault()
 
-    data.append("name", name);
-    data.append("about", about);
-    data.append("latitude", String(latitude));
-    data.append("longitude", String(longitude));
-    data.append("instructions", instructions);
-    data.append("opening_hours", opening_hours);
-    data.append("open_on_weekends", String(open_on_weekends));
+    const { latitude, longitude } = position
 
-    images.forEach((image) => {
-      data.append("images", image);
-    });
+    const data = new FormData()
 
-    await api.post("/orphanages", data);
+    data.append('name', name)
+    data.append('about', about)
+    data.append('latitude', String(latitude))
+    data.append('longitude', String(longitude))
+    data.append('instructions', instructions)
+    data.append('opening_hours', opening_hours)
+    data.append('open_on_weekends', String(open_on_weekends))
 
-    alert("Cadastro realizado com sucesso!");
+    images.forEach(image => {
+      data.append('images', image)
+    })
 
-    history.push("/app");
-  };
+    await api.post('orphanages', data)
+
+    alert('Cadastro realizado com sucesso!')
+
+    history.push('/app')
+  }
 
   return (
-    <div id="page-create-orphanage">
+    <div className="page-create-orphanage">
       <Sidebar />
-
       <main>
         <form onSubmit={handleSubmit} className="create-orphanage-form">
           <fieldset>
             <legend>Dados</legend>
 
             <Map
-              center={[-23.5077632, -46.2979072]}
-              style={{ width: "100%", height: 280 }}
+              center={[-23.6669549, -46.7705593]}
+              style={{ width: '100%', height: 280 }}
               zoom={15}
               onClick={handleMapClick}
             >
@@ -101,19 +107,17 @@ export default function CreateOrphanage() {
               <input
                 id="name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={event => setName(event.target.value)}
               />
             </div>
 
             <div className="input-block">
-              <label htmlFor="about">
-                Sobre <span>Máximo de 300 caracteres</span>
-              </label>
+              <label htmlFor="about">Sobre <span>Máximo de 300 caracteres</span></label>
               <textarea
-                id="about"
+                id="name"
                 maxLength={300}
                 value={about}
-                onChange={(e) => setAbout(e.target.value)}
+                onChange={event => setAbout(event.target.value)}
               />
             </div>
 
@@ -121,21 +125,16 @@ export default function CreateOrphanage() {
               <label htmlFor="images">Fotos</label>
 
               <div className="images-container">
-                {previewImages.map((image) => {
-                  return <img key={image} src={image} alt={name} />;
-                })}
+                {previewImages.map(image => (
+                  <img key={image} src={image} alt={name} />
+                ))}
 
                 <label htmlFor="image[]" className="new-image">
                   <FiPlus size={24} color="#15b6d6" />
                 </label>
               </div>
 
-              <input
-                multiple
-                onChange={handleSelectImages}
-                type="file"
-                id="image[]"
-              />
+              <input multiple onChange={handleSelectImages} type="file" id="image[]" />
             </div>
           </fieldset>
 
@@ -147,16 +146,16 @@ export default function CreateOrphanage() {
               <textarea
                 id="instructions"
                 value={instructions}
-                onChange={(e) => setInstructions(e.target.value)}
+                onChange={event => setInstructions(event.target.value)}
               />
             </div>
 
             <div className="input-block">
-              <label htmlFor="opening_hours">Horário de funcionamento</label>
+              <label htmlFor="opening_hours">Horário de funcinamento</label>
               <input
                 id="opening_hours"
                 value={opening_hours}
-                onChange={(e) => setOpeningHours(e.target.value)}
+                onChange={event => setOpeningHours(event.target.value)}
               />
             </div>
 
@@ -166,14 +165,14 @@ export default function CreateOrphanage() {
               <div className="button-select">
                 <button
                   type="button"
-                  className={open_on_weekends ? "active" : ""}
+                  className={open_on_weekends ? 'active' : ''}
                   onClick={() => setOpenOnWeekends(true)}
                 >
                   Sim
                 </button>
                 <button
                   type="button"
-                  className={!open_on_weekends ? "active" : ""}
+                  className={!open_on_weekends ? 'active' : ''}
                   onClick={() => setOpenOnWeekends(false)}
                 >
                   Não
@@ -188,5 +187,5 @@ export default function CreateOrphanage() {
         </form>
       </main>
     </div>
-  );
+  )
 }

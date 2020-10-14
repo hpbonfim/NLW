@@ -7,7 +7,7 @@ import orphanageView from '../views/orphanages_view'
 import Orphanage from '../models/Orphanage'
 
 export default {
-    async ListMany(request: Request, response: Response) {
+    async index(request: Request, response: Response) {
         const orphanagesRepository = getRepository(Orphanage)
 
         const orphanages = await orphanagesRepository.find({
@@ -17,7 +17,7 @@ export default {
         return response.json(orphanageView.renderMany(orphanages))
     },
 
-    async ListOne(request: Request, response: Response) {
+    async show(request: Request, response: Response) {
         const { id } = request.params
 
         const orphanagesRepository = getRepository(Orphanage)
@@ -29,7 +29,7 @@ export default {
         return response.json(orphanageView.render(orphanage))
     },
 
-    async CreateOne(request: Request, response: Response) {
+    async create(request: Request, response: Response) {
         const {
             name,
             latitude,
@@ -57,20 +57,20 @@ export default {
             about,
             instructions,
             opening_hours,
-            open_on_weekends,
+            open_on_weekends: open_on_weekends === 'true',
             images,
         }
 
         const schema = Yup.object().shape({
-            name: Yup.string().required('Nome Obrigatório'),
-            latitude: Yup.number().required('Latitude Obrigatório'),
-            longitude: Yup.number().required('Longitude Obrigatório'),
-            about: Yup.string().max(300).required('About Obrigatório'),
-            instructions: Yup.string().required('Instruções Obrigatórios'),
-            opening_hours: Yup.string().required('Horário Obrigatório'),
-            open_on_weekends: Yup.boolean().required('Aberto aos Fins de semana Obrigatório'),
+            name: Yup.string().required(),
+            latitude: Yup.number().required(),
+            longitude: Yup.number().required(),
+            about: Yup.string().max(300).required(),
+            instructions: Yup.string().required(),
+            opening_hours: Yup.string().required(),
+            open_on_weekends: Yup.boolean().required(),
             images: Yup.array(Yup.object().shape({
-                path: Yup.string().required('Arquivo Obrigatório'),
+                path: Yup.string().required(),
             })),
         })
 
