@@ -17,4 +17,5 @@ app.use(routes)
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')))
 app.use(errorHandler)
 
+console.log(`Host: ${process.env.HOST} - PORT: ${process.env.PORT}`)
 app.listen(process.env.PORT || 3333)
