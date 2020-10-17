@@ -1,37 +1,44 @@
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+} from "typeorm";
+import Image from "./Image";
 
-import Image from './Image'
-
-@Entity('orphanages')
+@Entity("orphanages")
 export default class Orphanage {
-  @PrimaryGeneratedColumn('increment')
-  id: number
+  @PrimaryGeneratedColumn("increment")
+  id: number;
 
   @Column()
-  name: string
+  name: string;
 
   @Column()
-  latitude: number
+  latitude: number;
 
   @Column()
-  longitude: number
+  longitude: number;
 
   @Column()
-  about: string
+  about: string;
 
   @Column()
-  instructions: string
+  instructions: string;
 
   @Column()
-  opening_hours: string
+  opening_hours: string;
 
   @Column()
-  open_on_weekends: boolean
+  open_on_weekends: boolean;
 
-  @OneToMany(() => Image, image => image.orphanage, {
-    cascade: ['insert', 'update']
-  })
+  @Column()
+  whatsapp: string;
 
-  @JoinColumn({ name: 'orphanage_id' })
-  images: Image[]
+  @OneToMany(() => Image, (image) => image.orphanage, {
+    cascade: ["insert", "update"],
+  }) // tipo de retorno, qual o campo do objeto que retorna o relacionamento inverso, e o cadastro automático das images
+  @JoinColumn({ name: "orphanage_id" }) // nome da coluna que armazena o relacionamento
+  images: Image[];
 }
