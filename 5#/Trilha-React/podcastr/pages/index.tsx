@@ -1,21 +1,20 @@
-import Header from '../src/components/Header'
+import { GetStaticProps } from 'next'
+import { format, parseISO } from 'date-fns'
+import { API } from '../services/api'
+import { ptBR } from 'date-fns/locale'
+import { convertDurationToTimeString } from '../utils/tools'
+import { HomeProps } from '../types/interfaces'
+import HomePage from '../src/components/HomePage'
 
-export default function Home(props) {
-  console.log(props);
-
-  return (
-    <div>
-
-    </div>
-  )
+export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
+  return (<HomePage latestEpisodes={latestEpisodes} allEpisodes={allEpisodes} />)
 }
 
 // SSR MODE
 /*
 export async function getServerSideProps() {
-  const response = await fetch('http://localhost:3333/episodes')
-  const data = await response.json()
-
+  const { data } = await API.get('episodes?_limit=12&_sort=published_at&_order=desc')
+  
   return {
     props: {
       episodes: data
@@ -25,13 +24,32 @@ export async function getServerSideProps() {
 */
 
 // SSG MODE
-export async function getStaticProps() {
-  const response = await fetch('http://localhost:3333/episodes')
-  const data = await response.json()
+export const getStaticProps: GetStaticProps = async () => {
+
+  const { data } = await API.get('episodes', {
+    params: {
+      _limit: 12,
+      _sort: 'published_at',
+      _order: 'desc'
+    }
+  })
+
+  const episodes = data.map((episode) => {
+    return {
+      ...episode,
+      publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
+      durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
+      url: episode.file.url
+    }
+  })
+
+  const latestEpisodes = episodes.slice(0, 2)
+  const allEpisodes = episodes.slice(2, episodes.length)
 
   return {
     props: {
-      episodes: data
+      latestEpisodes: latestEpisodes,
+      allEpisodes: allEpisodes
     },
     revalidate: 60 * 60 * 8
   }
